@@ -130,6 +130,25 @@ function gdpr_cookie_compliance_addon_load_libs() {
 	include_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . 'class-moove-gdpr-consent-log.php';
 }
 
+// Make plugin ready for client-facing projects by removing admin notices
+add_action(
+	'admin_head',
+	function() {
+		?>
+		<style>
+		a[href*="moove-gdpr_licence"],
+		a[href*="moove-gdpr_support"],
+		#moove_form_checker_wrap a[href*="moove-gdpr_licence"],
+		a[href*="support.mooveagency.com/forum/gdpr-cookie-compliance"],
+		.gdpr_premium_buy_link,
+		.gdpr-locked-section {
+			display: none !important;
+		}
+		</style>
+		<?php
+	}
+);
+
 // Allow users to user their license slots
 add_action(
 	'plugins_loaded',
