@@ -825,10 +825,10 @@ class Moove_GDPR_Addon_Actions {
 				$display_banner = 'true';
 			else :
 				$display_banner = 'false';
-				$loc_data['enabled_default'] = array(
+				/*$loc_data['enabled_default'] = array(
 					'third_party' => 1,
 					'advanced'    => 1,
-				);
+				);*/
 			endif;
 
 			$loc_data['display_cookie_banner'] = $display_banner;
