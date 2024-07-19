@@ -129,3 +129,11 @@ function gdpr_cookie_compliance_addon_load_libs() {
 	include_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . 'class-moove-gdpr-updater.php';
 	include_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'controllers' . DIRECTORY_SEPARATOR . 'class-moove-gdpr-consent-log.php';
 }
+
+// Allow users to user their license slots
+add_action(
+	'plugins_loaded',
+	function() {
+		do_action( 'gdpr_plugin_loaded' );
+	}
+);
