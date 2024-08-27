@@ -141,6 +141,7 @@ add_action(
 		#moove_form_checker_wrap a[href*="moove-gdpr_licence"],
 		a[href*="support.mooveagency.com/forum/gdpr-cookie-compliance"],
 		.gdpr_premium_buy_link,
+		.gdpr-cookie-update-alert,
 		.gdpr-locked-section {
 			display: none !important;
 		}
