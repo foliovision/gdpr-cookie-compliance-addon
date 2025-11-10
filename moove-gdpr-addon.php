@@ -157,3 +157,6 @@ add_action(
 		do_action( 'gdpr_plugin_loaded' );
 	}
 );
+
+// Remove rating nag
+add_filter( 'gdpr_check_review_banner_condition', '__return_false', PHP_INT_MAX );
