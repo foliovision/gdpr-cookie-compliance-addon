@@ -141,7 +141,7 @@
 					<fieldset class="gdpr-geolocation-options">
 						
 						<label for="moove_gdpr_cc_geo_setup_1">
-							<input name="moove_gdpr_cc_geo_setup[]" type="checkbox" <?php echo isset( $geo_setup['1'] ) && $geo_setup['1'] ?  'checked' : ''; ?> id="moove_gdpr_cc_geo_setup_1" value="1">
+							<input name="moove_gdpr_cc_geo_setup[]" type="checkbox" <?php echo isset( $geo_setup['1'] ) && $geo_setup['1'] ?  'checked' : ''; ?> id="moove_gdpr_cc_geo_setup_1" value="1" disabled />
 							<?php 
 								printf(
 							    __( 'Show Cookie Banner to users from the %1$s only.', 'gdpr-cookie-compliance-addon' ),
@@ -158,7 +158,7 @@
 						<br /><br />
 
 						<label for="moove_gdpr_cc_geo_setup_3">
-							<input name="moove_gdpr_cc_geo_setup[]" type="checkbox" <?php echo isset( $geo_setup['3'] ) && $geo_setup['3'] ?  'checked' : ''; ?> id="moove_gdpr_cc_geo_setup_3" value="3">
+							<input name="moove_gdpr_cc_geo_setup[]" type="checkbox" <?php echo isset( $geo_setup['3'] ) && $geo_setup['3'] ?  'checked' : ''; ?> id="moove_gdpr_cc_geo_setup_3" value="3" disabled />
 							<?php 
 								printf(
 							    __( 'Show Cookie Banner to users from %1$s only.', 'gdpr-cookie-compliance-addon' ),
@@ -174,7 +174,7 @@
 						<br /><br />
 
 						<label for="moove_gdpr_cc_geo_setup_4">
-							<input name="moove_gdpr_cc_geo_setup[]" type="checkbox" <?php echo isset( $geo_setup['4'] ) && $geo_setup['4'] ?  'checked' : ''; ?> id="moove_gdpr_cc_geo_setup_4" value="4">
+							<input name="moove_gdpr_cc_geo_setup[]" type="checkbox" <?php echo isset( $geo_setup['4'] ) && $geo_setup['4'] ?  'checked' : ''; ?> id="moove_gdpr_cc_geo_setup_4" value="4" disabled />
 							<?php 
 								printf(
 							    __( 'Show Cookie Banner to users from %1$s only.', 'gdpr-cookie-compliance-addon' ),
@@ -204,7 +204,7 @@
 							<br />
 							
 							<label for="moove_gdpr_cc_geo_setup_2">
-								<input name="moove_gdpr_cc_geo_setup[]" type="checkbox" <?php echo isset( $geo_setup['2'] ) && $geo_setup['2'] ?  'checked' : ''; ?> id="moove_gdpr_cc_geo_setup_2" value="2">
+								<input name="moove_gdpr_cc_geo_setup[]" type="checkbox" <?php echo isset( $geo_setup['2'] ) && $geo_setup['2'] ?  'checked' : ''; ?> id="moove_gdpr_cc_geo_setup_2" value="2" disabled />
 								<?php 
 									printf(
 								    __( 'Show Cookie Banner to users from the %1$s only.', 'gdpr-cookie-compliance-addon' ),
@@ -248,7 +248,7 @@
 							<br />
 							
 							<label for="moove_gdpr_cc_geo_setup_5">
-								<input name="moove_gdpr_cc_geo_setup[]" type="checkbox" <?php echo isset( $geo_setup['5'] ) && $geo_setup['5'] ?  'checked' : ''; ?> id="moove_gdpr_cc_geo_setup_5" value="5">
+								<input name="moove_gdpr_cc_geo_setup[]" type="checkbox" <?php echo isset( $geo_setup['5'] ) && $geo_setup['5'] ?  'checked' : ''; ?> id="moove_gdpr_cc_geo_setup_5" value="5" disabled />
 								<?php 
 									printf(
 								    __( 'Hide Cookie Banner to users from the %1$s.', 'gdpr-cookie-compliance-addon' ),
@@ -281,7 +281,7 @@
 					<br />
 					<p class="description" id="moove_gdpr_cc_geo_setup_eu-description">
 						<span class="gdpr_geo_cc_desc">
-							<?php
+							<del><?php
 							// translators: %s link to third party.
 
 							printf( 
@@ -291,7 +291,8 @@
 							?>
 							<?php							
 							esc_html_e( 'If the 3rd party service is temporarily unavailable, the banner will be shown to all users.', 'gdpr-cookie-compliance-addon' );					
-							?>
+							?></del>
+							<p><strong>FV Tweak</strong>: Using MaxMind GeoIP2 database instead of geoPlugin. Only check for EU countries, hence the above checkboxes are disabled.</p>
 				  	</span>
 				  </p>
 					<!--  .description -->
