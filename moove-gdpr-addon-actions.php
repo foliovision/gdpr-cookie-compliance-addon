@@ -741,85 +741,31 @@ class Moove_GDPR_Addon_Actions {
 
 			$geoip_controller = new Moove_GDPR_Addon_GeoIP();
 			$ip               = $geoip_controller->get_visitor_ip();
-			$sanitized_ip     = md5( $ip );
+			
+			// Note: Original code starts with assuming true to display banner by default.
 			$display_banner   = 'true';
-			$results 					= false;
-			$existing 				= $geoip_controller->get_log_entry( $sanitized_ip );
-	
-			if ( $existing ) :
-				$results = json_decode( $existing, true );
-			endif;
 
-			if ( ! $results ) :
-				$response_from_api = $geoip_controller->get_details_by_ip( $ip );
-				if ( isset( $response_from_api['success'] ) && $response_from_api['success'] && isset( $response_from_api['data'] ) ) :
-					unset( $response_from_api['data']['geoplugin_request'] );
-					unset( $response_from_api['data']['geoplugin_credit'] );
-					$geoip_controller->create_log_entry(
-						array(
-							'ip_address'		=> $sanitized_ip,
-							'option_value'	=> json_encode( $response_from_api['data'] )
-						)
-					);
-					$results = $response_from_api['data'];
-				endif;
-			endif;
+			/* Original geoIP code for external API preparattion removed from here */
 
+			// Note: Also from the original code, suddently it assumers to now display banner by default.
 			$show_cookie_banner = false;
-			if ( is_array( $geo_setup ) ) :
-				$loc_data['geo_debug'] = '';
-				foreach ( $geo_setup as $geo_key => $geo_value ) :
-					
-					switch ( $geo_key ) :
-						case 1:
-							// EU - Users
-							if ( isset( $results['geoplugin_inEU'] ) && intval( $results['geoplugin_inEU'] ) === 1 ) :
-								$show_cookie_banner = true;
-								$loc_data['geo_debug'] .= '|EU|';
-							endif;
-							break;
-						case 2:
-							// Custom Country - Users
-							$selected_countries = isset( $gdpr_options['gdpr_geo_countries'] ) ? json_decode( $gdpr_options['gdpr_geo_countries'], true ) : array();
-							$selected_countries	= is_array( $selected_countries ) ? $selected_countries : array();
-							if ( isset( $results['geoplugin_countryCode'] ) && in_array( $results['geoplugin_countryCode'], $selected_countries ) ) :
-								$show_cookie_banner = true;
-								$loc_data['geo_debug'] .= '|SELECTED_COUNTRIES|';
-							endif;
-							break;
-						case 3:
-							// California US - Users
-							if ( isset( $results['geoplugin_regionCode'] ) && strtolower( $results['geoplugin_regionCode'] ) === 'ca' ) :
-								$show_cookie_banner = true;
-								$loc_data['geo_debug'] .= '|CALIFORNIA|';
-							endif;
-							break;
-						case 4:
-							// Canada - Users
-							if ( isset( $results['geoplugin_countryName'] ) && strtolower( $results['geoplugin_countryName'] ) === 'canada' ) :
-								$show_cookie_banner = true;
-								$loc_data['geo_debug'] .= '|CANADA|';
-							endif;
-							break;
-						case 5:
-							// Custom Country - Exclude Country
-							$selected_countries = isset( $gdpr_options['gdpr_geo_countries_exclude'] ) ? json_decode( $gdpr_options['gdpr_geo_countries_exclude'], true ) : array();
-							$selected_countries	= is_array( $selected_countries ) ? $selected_countries : array();
-							if ( isset( $results['geoplugin_countryCode'] ) && in_array( $results['geoplugin_countryCode'], $selected_countries ) ) :
-								$show_cookie_banner = false;
-								$loc_data['geo_debug'] .= '|EXCLUDED_COUNTRIES|HCB|' . $results['geoplugin_countryCode'];
-							else :
-								$loc_data['geo_debug'] .= '|EXCLUDED_COUNTRIES|SHB|' . $results['geoplugin_countryCode'];
-								$show_cookie_banner = true;
-							endif;
-							break;
-						default:
-							$show_cookie_banner = true;
-							$loc_data['geo_debug'] .= '|DEFAULT|';
-							break;
-					endswitch;
-				endforeach;
-			endif;
+
+			/* Original geoIP code with external API removed from here */
+
+			require __DIR__ . '/vendor/autoload.php';
+			$geoip = new MaxMind\Db\Reader( __DIR__ . '/GeoLite2-Country.mmdb' );
+			$record = $geoip->get( $ip );
+	
+			if ( ! empty( $record['country']['iso_code'] ) ) {
+				$loc_data['geo_debug'] = $record['country']['iso_code'];
+
+				if ( in_array( $record['country']['iso_code'], array('AT', 'BE', 'BG', 'CZ', 'DK', 'DE', 'EE', 'IE', 'EL', 'ES', 'FR', 'HR', 'IT', 'CY', 'LV', 'LT', 'LU', 'HU', 'MT', 'NL', 'TA', 'PL', 'PT', 'RO', 'SI', 'SK', 'FI', 'SE', 'UK', 'GR') ) ) {
+					$show_cookie_banner = true;
+				}
+
+			} else {
+				$loc_data['geo_debug'] = 'Failed to detect country';
+			}
 
 			if ( $show_cookie_banner ) :
 				$display_banner = 'true';
